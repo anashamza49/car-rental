@@ -1,0 +1,28 @@
+appsettings.json
+bin/
+obj/
+logs/
+internal_logs/
+
+# Fichiers utilisateur
+*.user
+*.suo
+*.userprefs
+
+# Fichiers de configuration local
+appsettings.Development.json
+
+# Fichiers d'IDE
+.vs/
+.idea/
+
+# Fichiers de sortie
+TestResults/
+*.nupkg
+
+# Fichiers temporaires
+*.swp
+*.cache
+
+# Fichiers spécifiques à NLog
+nlog-internal.log
