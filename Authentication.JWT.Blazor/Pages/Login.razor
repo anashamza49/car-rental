@@ -1,0 +1,68 @@
+﻿@page "/login"
+@using Authentication.JWT.Blazor.DTOs
+@using Authentication.JWT.Blazor.Services
+@using Blazored.LocalStorage
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inject ILocalStorageService LocalStorage
+
+<PageTitle>Login</PageTitle>
+
+<div class="login-container">
+    <h3 class="login-title">Login</h3>
+
+    <EditForm Model="@loginDto" OnValidSubmit="@HandleLogin">
+        <DataAnnotationsValidator />
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="validation-summary">
+                @errorMessage
+            </div>
+        }
+
+        <ValidationSummary class="validation-summary" />
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <InputText id="username" @bind-Value="loginDto.Username" class="form-control" />
+            <ValidationMessage For="@(() => loginDto.Username)" class="validation-message" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <InputText id="password" type="password" @bind-Value="loginDto.Password" class="form-control" />
+            <ValidationMessage For="@(() => loginDto.Password)" class="validation-message" />
+        </div>
+
+        <button type="submit" class="btn-primary">Login</button>
+    </EditForm>
+</div>
+@code {
+    private LoginDto loginDto = new();
+    private string errorMessage = string.Empty;
+
+    private async Task HandleLogin()
+    {
+        var result = await AuthService.Login(loginDto);
+
+        if (result.Success)
+        {
+            var role = await LocalStorage.GetItemAsync<string>("role");
+
+            if (role == "Admin")
+            {
+                Navigation.NavigateTo("/list-cars");
+            }
+            else
+            {
+                Navigation.NavigateTo("/");
+            }
+        }
+        else
+        {
+            errorMessage = "Invalid credentials. Please try again.";
+        }
+    }
+}
+

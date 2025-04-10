@@ -25,21 +25,18 @@ namespace Authentification.JWT.Service.Services
             return mapper.Map<UserDto>(user);
         }
 
-        public async Task<UserDto> RegisterUserAsync(string username, string email, string password)
+        public async Task<UserDto> RegisterUserAsync(string username, string email, string password, string role = "Employee")
         {
-            logger.LogInformation("attemp to register for {Username}", username);
-
-            if (await userRepository.GetUserByUsernameAsync(username) != null)
-            {
-                logger.LogWarning("Username {Username} already exists", username);
-                throw new Exception("Username couldn't be found");
-            }
+            // Validation du rôle
+            if (role != "Admin" && role != "Employee")
+                throw new ArgumentException("Invalid role");
 
             var newUser = new User
             {
                 Username = username,
                 Email = email,
-                PasswordHash = PasswordHasher.HashPassword(password)
+                PasswordHash = PasswordHasher.HashPassword(password),
+                Role = role
             };
 
             var createdUser = await userRepository.RegisterUserAsync(newUser);

@@ -16,6 +16,8 @@ namespace Authentification.JWT.Service.Mappings
                     opt => opt.MapFrom(src => PasswordHasher.HashPassword(src.Password)));
 
             CreateMap<User, UserDto>();
+            CreateMap<Car, CarResponseDto>();
+            CreateMap<CarDto, Car>();
         }
     }
 }

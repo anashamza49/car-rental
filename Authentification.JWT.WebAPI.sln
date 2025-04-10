@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentification.JWT.WebAPI", "Authentification.JWT.WebAPI\Authentification.JWT.WebAPI.csproj", "{D03913F7-8895-4C0D-BDB1-0EA215050906}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentification.JWT.DAL", "Authentification.JWT.DAL\Authentification.JWT.DAL.csproj", "{814D0CCE-8CF2-4E4A-AC8E-9FD84A8481D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentification.JWT.Test", "Authentification.JWT.Test\Authentification.JWT.Test.csproj", "{C781D391-A72D-4A95-99F6-B1B5FB24CB8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.JWT.Blazor", "Authentication.JWT.Blazor\Authentication.JWT.Blazor.csproj", "{CF12D4E7-96AF-4934-A4BC-EC66E39F0D9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{C781D391-A72D-4A95-99F6-B1B5FB24CB8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C781D391-A72D-4A95-99F6-B1B5FB24CB8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C781D391-A72D-4A95-99F6-B1B5FB24CB8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF12D4E7-96AF-4934-A4BC-EC66E39F0D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF12D4E7-96AF-4934-A4BC-EC66E39F0D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF12D4E7-96AF-4934-A4BC-EC66E39F0D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF12D4E7-96AF-4934-A4BC-EC66E39F0D9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

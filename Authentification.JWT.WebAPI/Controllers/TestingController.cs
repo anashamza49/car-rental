@@ -8,7 +8,7 @@ namespace Authentification.JWT.WebAPI.Controllers
     public class TestingController : ControllerBase
     {
         [HttpGet("secured")]
-        [Authorize]
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult SecuredEndpoint()
         {
             return Ok("Authorized !!!");

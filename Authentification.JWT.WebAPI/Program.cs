@@ -7,7 +7,6 @@ using Authentification.JWT.Service.Interfaces;
 using Authentification.JWT.Service.Services;
 using Authentification.JWT.Service.Mappings;
 using Authentification.JWT.DAL.Repositories;
-using Authentification.JWT.WebAPI.Middlewares;
 using NLog.Web;
 using Microsoft.OpenApi.Models;
 
@@ -16,6 +15,15 @@ var builder = WebApplication.CreateBuilder(args);
 // config NLog
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorOrigin",
+        policy => policy.WithOrigins("https://localhost:7119")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -36,6 +44,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 // config des services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+// Après les autres services
+builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<ICarService, CarService>();
 
 // config AutoMapper
 builder.Services.AddAutoMapper(typeof(AuthProfile));
@@ -53,6 +64,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+
+// Configuration des politiques d'autorisation pour les rôles
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("EmployeeOrAdmin", policy => policy.RequireRole("Admin", "Employee"));
+});
 
 // Configuration Swagger avec authentification
 builder.Services.AddSwaggerGen(c =>
@@ -77,10 +95,17 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// creation des dossiers (if doesn't exist)
 var logDir = Path.Combine(Directory.GetCurrentDirectory(), "logs");
 Directory.CreateDirectory(Path.Combine(logDir, "all"));
 Directory.CreateDirectory(Path.Combine(logDir, "errors"));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorApp",
+        policy => policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 var app = builder.Build();
 
@@ -92,12 +117,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowBlazorApp");
 app.UseHttpsRedirection();
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 
 app.MapControllers();
 

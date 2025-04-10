@@ -12,19 +12,18 @@ public class JwtService : IJwtService
     {
         _key = config["Jwt:Key"];
     }
-    public string GenerateToken(int userId)
+    public string GenerateToken(int userId, string role)
     {
-        //preparation du cle de signature
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Role, role)
         };
 
-        // config du token
         var token = new JwtSecurityToken(
             issuer: null,
             audience: null,
@@ -33,7 +32,6 @@ public class JwtService : IJwtService
             signingCredentials: credentials
         );
 
-        // cela permet de generer token sous format string
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

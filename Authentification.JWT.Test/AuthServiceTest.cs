@@ -5,7 +5,6 @@ using Authentification.JWT.Service.Services;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Xunit;
 
 namespace Authentification.JWT.Test
 {

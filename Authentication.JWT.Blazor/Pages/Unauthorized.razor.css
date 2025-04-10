@@ -1,0 +1,23 @@
+﻿.unauthorized-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+}
+
+.unauthorized-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--error-color);
+    margin-bottom: 1rem;
+}
+
+.unauthorized-message {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+}

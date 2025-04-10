@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Authentification.JWT.Service\Authentification.JWT.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\car_images\" />
+  </ItemGroup>
+
 </Project>

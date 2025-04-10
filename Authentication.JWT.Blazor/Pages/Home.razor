@@ -1,0 +1,144 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>AutoGest - Gestion de Voitures</PageTitle>
+
+@if (!isAuthenticated)
+{
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <span class="navbar-brand-icon">🚗</span>
+            AutoGest
+        </a>
+
+        <div class="navbar-links">
+            <a href="/" class="navbar-link">Accueil</a>
+            <a href="/cars" class="navbar-link">Véhicules</a>
+            <a href="/services" class="navbar-link">Services</a>
+            <a href="/about" class="navbar-link">À propos</a>
+        </div>
+
+        <div class="navbar-buttons">
+            <a href="/login" class="btn-login">Connexion</a>
+            <a href="/register" class="btn-register">Inscription</a>
+        </div>
+
+        <button class="mobile-menu-button" @onclick="ToggleMobileMenu">
+            ☰
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu @(isMobileMenuOpen ? "open" : "")">
+        <div class="mobile-menu-header">
+            <a href="/" class="navbar-brand">
+                <span class="navbar-brand-icon">🚗</span>
+                AutoGest
+            </a>
+            <button class="mobile-menu-close" @onclick="ToggleMobileMenu">
+                ✕
+            </button>
+        </div>
+
+        <div class="mobile-menu-links">
+            <a href="/" class="mobile-menu-link" @onclick="CloseMobileMenu">Accueil</a>
+            <a href="/cars" class="mobile-menu-link" @onclick="CloseMobileMenu">Véhicules</a>
+            <a href="/services" class="mobile-menu-link" @onclick="CloseMobileMenu">Services</a>
+            <a href="/about" class="mobile-menu-link" @onclick="CloseMobileMenu">À propos</a>
+        </div>
+
+        <div class="mobile-menu-buttons">
+            <a href="/login" class="btn-primary" @onclick="CloseMobileMenu">Connexion</a>
+            <a href="/register" class="btn-secondary" @onclick="CloseMobileMenu">Inscription</a>
+        </div>
+    </div>
+}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Gérez votre flotte de véhicules avec <span>AutoGest</span></h1>
+        <p class="hero-subtitle">
+            Une solution complète pour la gestion de vos véhicules, l'entretien, les réparations et le suivi des coûts.
+            Simplifiez votre gestion automobile dès aujourd'hui.
+        </p>
+        <div class="hero-buttons">
+            <a href="/register" class="btn-primary">Commencer gratuitement</a>
+            <a href="/demo" class="btn-secondary">Voir la démo</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2 class="section-title">Fonctionnalités principales</h2>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3 class="feature-title">Gestion de flotte</h3>
+            <p class="feature-description">
+                Suivez tous vos véhicules en un seul endroit. Informations détaillées, documents et historique complet.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🔧</div>
+            <h3 class="feature-title">Suivi d'entretien</h3>
+            <p class="feature-description">
+                Planifiez et suivez les entretiens réguliers. Recevez des alertes pour les maintenances à venir.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3 class="feature-title">Gestion des coûts</h3>
+            <p class="feature-description">
+                Analysez les dépenses liées à chaque véhicule. Rapports détaillés et tableaux de bord personnalisables.
+            </p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <span>🚗</span> AutoGest
+        </div>
+        <p class="footer-text">
+            La solution idéale pour la gestion de votre flotte automobile.
+            Simple, efficace et accessible partout.
+        </p>
+        <div class="footer-links">
+            <a href="/privacy" class="footer-link">Confidentialité</a>
+            <a href="/terms" class="footer-link">Conditions d'utilisation</a>
+            <a href="/contact" class="footer-link">Contact</a>
+        </div>
+        <p class="footer-copyright">
+            © @DateTime.Now.Year AutoGest. Tous droits réservés.
+        </p>
+    </div>
+</footer>
+
+@code {
+    private bool isMobileMenuOpen = false;
+    private bool isAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        isAuthenticated = authState.User.Identity?.IsAuthenticated == true;
+    }
+
+    private void ToggleMobileMenu()
+    {
+        isMobileMenuOpen = !isMobileMenuOpen;
+    }
+
+    private void CloseMobileMenu()
+    {
+        isMobileMenuOpen = false;
+    }
+}
