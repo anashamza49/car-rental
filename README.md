@@ -23,9 +23,6 @@ Ce projet permet la gestion des employés dans une entreprise, avec une séparat
 
 ### 🏢 Gestion des départements/services (prévu)
 
-### 🔍 Recherche et filtrage (prévu)
-
-### 📊 Dashboard RH (facultatif)
 
 ---
 
