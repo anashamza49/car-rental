@@ -1,48 +1,50 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using Authentication.JWT.Blazor.DTOs;
-using System;
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
 
 namespace Authentification.JWT.Web.Services
 {
-    public class CarService
+    public class CarService(HttpClient _httpClient, NavigationManager _navigationManager, ILocalStorageService _localStorage)
     {
-        private readonly HttpClient _httpClient;
-
-        public CarService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
-        // defining authorization header
         public void SetAuthorizationHeader(string token)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
-
-        public async Task<HttpResponseMessage> AddCarAsync(MultipartFormDataContent content)
+        public async Task<HttpResponseMessage> AddCarAsync(CarDto carDto)
         {
+            var token = await _localStorage.GetItemAsync<string>("authToken");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new Exception("JWT token is missing.");
+            }
+
+            SetAuthorizationHeader(token);
+
+            var content = new MultipartFormDataContent();
+            content.Add(new StringContent(carDto.Brand), "Brand");
+            content.Add(new StringContent(carDto.Model), "Model");
+            content.Add(new StringContent(carDto.Year.ToString()), "Year");
+            content.Add(new StringContent(carDto.LicensePlate), "LicensePlate");
+
+            if (!string.IsNullOrEmpty(carDto.ImageUrl))
+            {
+                content.Add(new StringContent(carDto.ImageUrl), "imageUrl");
+            }
+
             try
             {
                 var response = await _httpClient.PostAsync("api/cars", content);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    Console.Error.WriteLine($"Error while adding car: {errorContent}");
-                    throw new Exception($"Failed to add car. Status code: {response.StatusCode}, Error: {errorContent}");
-                }
-
                 return response;
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Exception occurred: {ex.Message}");
-                throw new Exception("An unexpected error occurred while adding the car.", ex);
+                throw new Exception("An error occurred while adding the car.", ex);
             }
         }
-
         public async Task<List<CarDto>> GetCarsAsync(string token)
         {
             try
@@ -65,6 +67,7 @@ namespace Authentification.JWT.Web.Services
                 return new List<CarDto>();
             }
         }
+
         public async Task<bool> DeleteCarAsync(int carId, string token)
         {
             try
@@ -79,6 +82,5 @@ namespace Authentification.JWT.Web.Services
                 return false;
             }
         }
-
     }
 }

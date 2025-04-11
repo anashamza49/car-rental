@@ -4,7 +4,6 @@
 @using Blazored.LocalStorage
 @inject CarService CarService
 @inject NavigationManager Navigation
-@inject ILocalStorageService LocalStorage
 
 <h3>Add a New Car</h3>
 
@@ -71,40 +70,9 @@
 
     private async Task HandleAddCar()
     {
-        var token = await LocalStorage.GetItemAsync<string>("authToken");
-
-        if (string.IsNullOrEmpty(token))
-        {
-            isError = true;
-            errorMessage = "JWT token is missing.";
-            return;
-        }
-
-        CarService.SetAuthorizationHeader(token);
-
-        var content = new MultipartFormDataContent();
-
-        if (string.IsNullOrEmpty(carDto.Brand) || string.IsNullOrEmpty(carDto.Model) ||
-            carDto.Year == 0 || string.IsNullOrEmpty(carDto.LicensePlate))
-        {
-            isError = true;
-            errorMessage = "All fields must be filled.";
-            return;
-        }
-
-        content.Add(new StringContent(carDto.Brand), "Brand");
-        content.Add(new StringContent(carDto.Model), "Model");
-        content.Add(new StringContent(carDto.Year.ToString()), "Year");
-        content.Add(new StringContent(carDto.LicensePlate), "LicensePlate");
-
-        if (!string.IsNullOrEmpty(carDto.ImageUrl))
-        {
-            content.Add(new StringContent(carDto.ImageUrl), "imageUrl");
-        }
-
         try
         {
-            var response = await CarService.AddCarAsync(content);
+            var response = await CarService.AddCarAsync(carDto);
 
             if (response.IsSuccessStatusCode)
             {
@@ -124,5 +92,4 @@
             errorMessage = $"An error occurred while adding the car: {ex.Message}";
         }
     }
-
 }
