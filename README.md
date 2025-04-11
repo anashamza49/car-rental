@@ -21,8 +21,6 @@ Ce projet permet la gestion des employés dans une entreprise, avec une séparat
 - Création, lecture, mise à jour, suppression (CRUD)
 - Attribution de rôles/postes
 
-### 🏢 Gestion des départements/services (prévu)
-
 
 ---
 
