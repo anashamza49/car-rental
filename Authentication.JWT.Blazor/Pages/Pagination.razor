@@ -1,0 +1,31 @@
+﻿@code {
+    [Parameter] public int CurrentPage { get; set; }
+    [Parameter] public int TotalPages { get; set; }
+    [Parameter] public EventCallback<int> OnPreviousPage { get; set; }
+    [Parameter] public EventCallback<int> OnNextPage { get; set; }
+
+    private void GoToPreviousPage()
+    {
+        if (CurrentPage > 1)
+        {
+            OnPreviousPage.InvokeAsync(CurrentPage - 1);
+        }
+    }
+
+    private void GoToNextPage()
+    {
+        if (CurrentPage < TotalPages)
+        {
+            OnNextPage.InvokeAsync(CurrentPage + 1);
+        }
+    }
+
+    private bool HasPreviousPage => CurrentPage > 1;
+    private bool HasNextPage => CurrentPage < TotalPages;
+}
+
+<div class="pagination-container">
+    <button class="pagination-btn" @onclick="GoToPreviousPage" disabled="@(!HasPreviousPage)">Previous</button>
+    <span class="pagination-info">Page @CurrentPage of @TotalPages</span>
+    <button class="pagination-btn" @onclick="GoToNextPage" disabled="@(!HasNextPage)">Next</button>
+</div>

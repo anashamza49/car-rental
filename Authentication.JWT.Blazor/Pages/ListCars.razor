@@ -10,7 +10,6 @@
 <PageTitle>Your Cars</PageTitle>
 
 <div class="cars-container">
-    <!-- Button to add a car -->
     <button class="add-car-btn" @onclick="NavigateToAddCar">+ Add Car</button>
 
     @if (isLoading)
@@ -39,9 +38,6 @@
                         @if (!string.IsNullOrWhiteSpace(car.ImageUrl))
                         {
                             <img src="@car.ImageUrl" alt="@car.Model" class="car-image" onerror="this.classList.add('image-loading-failed')" />
-                            <div class="image-error">
-                                <div class="car-svg-icon"></div>
-                            </div>
                         }
                         else
                         {
@@ -53,18 +49,15 @@
                     </div>
                     <div class="car-content">
                         <h4 class="car-model">@car.Model</h4>
-
                         <div class="car-details">
                             <div class="car-detail">
                                 <span class="car-detail-label">Brand:</span>
                                 <span class="car-detail-value">@car.Brand</span>
                             </div>
-
                             <div class="car-detail">
                                 <span class="car-detail-label">Year:</span>
                                 <span class="car-detail-value">@car.Year</span>
                             </div>
-
                             <div class="car-detail">
                                 <span class="car-detail-label">License Plate:</span>
                                 <span class="car-detail-value">@car.LicensePlate</span>
@@ -78,11 +71,10 @@
             }
         </div>
 
-        <div class="pagination-container">
-            <button class="pagination-btn" @onclick="PreviousPage" disabled="@(!HasPreviousPage)">Previous</button>
-            <span class="pagination-info">Page @currentPage of @totalPages</span>
-            <button class="pagination-btn" @onclick="NextPage" disabled="@(!HasNextPage)">Next</button>
-        </div>
+        <Pagination CurrentPage="currentPage"
+                    TotalPages="totalPages"
+                    OnPreviousPage="PreviousPage"
+                    OnNextPage="NextPage" />
     }
 </div>
 
@@ -140,24 +132,16 @@
         Navigation.NavigateTo("/add-car");
     }
 
-    private void PreviousPage()
+    private void PreviousPage(int page)
     {
-        if (currentPage > 1)
-        {
-            currentPage--;
-        }
+        currentPage = page;
     }
 
-    private void NextPage()
+    private void NextPage(int page)
     {
-        if (currentPage < totalPages)
-        {
-            currentPage++;
-        }
+        currentPage = page;
     }
 
-    private bool HasNextPage => currentPage < totalPages;
-    private bool HasPreviousPage => currentPage > 1;
     private async Task DeleteCar(int carId)
     {
         var token = await LocalStorage.GetItemAsync<string>("authToken");
@@ -176,5 +160,4 @@
             errorMessage = "Échec de la suppression de la voiture.";
         }
     }
-
 }
