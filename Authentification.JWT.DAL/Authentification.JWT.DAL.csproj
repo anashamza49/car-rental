@@ -24,4 +24,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Authentication.Shared\Authentication.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

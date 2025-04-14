@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Components.Forms;
 
-namespace Authentication.JWT.Blazor.DTOs
+namespace Authentification.JWT.Service.DTOs
 {
-    public class CarDto
+    public class CarResponseDto
     {
         public int Id { get; set; }
 
@@ -19,7 +18,8 @@ namespace Authentication.JWT.Blazor.DTOs
         [Required]
         public string LicensePlate { get; set; }
 
-        public string ImageUrl { get; set; }
+        public int OwnerId { get; set; }
 
+        public byte[] Image { get; set; }
     }
 }

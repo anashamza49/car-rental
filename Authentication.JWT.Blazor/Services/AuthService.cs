@@ -1,6 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Json;
-using Authentication.JWT.Blazor.DTOs;
+using Authentification.JWT.Service.DTOs;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 

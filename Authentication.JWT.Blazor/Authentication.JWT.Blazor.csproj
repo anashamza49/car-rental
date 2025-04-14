@@ -11,10 +11,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.14" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.15" />
     <PackageReference Include="Radzen.Blazor" Version="6.5.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authentication.Shared\Authentication.Shared.csproj" />
   </ItemGroup>
 
 </Project>

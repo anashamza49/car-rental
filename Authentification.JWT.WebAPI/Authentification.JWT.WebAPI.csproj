@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Authentication.Shared\Authentication.Shared.csproj" />
     <ProjectReference Include="..\Authentification.JWT.Service\Authentification.JWT.Service.csproj" />
   </ItemGroup>
 

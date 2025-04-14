@@ -6,7 +6,7 @@ namespace Authentification.JWT.Service.DTOs
     {
         [Required]
         public string Username { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }
