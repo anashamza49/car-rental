@@ -1,5 +1,4 @@
-﻿/* Modern Login Form with Magnificent Styling */
-
+﻿
 :root {
     --primary-color: #6d28d9;
     --primary-light: #8b5cf6;
@@ -212,14 +211,12 @@
     animation: ripple 1s ease-out;
 }
 
-/* Add a subtle pattern to the background */
 body {
     background-color: #f9fafb;
     background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
     background-size: 20px 20px;
 }
 
-/* Add responsive adjustments */
 @media (max-width: 640px) {
     .login-container {
         margin: 1.5rem auto;

@@ -15,7 +15,6 @@
     --transition-speed: 0.3s;
 }
 
-/* Container styles */
 .cars-container {
     width: 100%;
     max-width: 1200px;
@@ -24,7 +23,6 @@
     position: relative;
 }
 
-/* Header styles */
 .cars-header {
     display: flex;
     justify-content: space-between;
@@ -53,14 +51,12 @@
         border-radius: 2px;
     }
 
-/* Grid layout */
 .cars-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2.5rem;
 }
 
-/* Car card */
 .car-card {
     background-color: var(--background-light);
     border-radius: var(--border-radius);
@@ -80,7 +76,6 @@
         box-shadow: var(--card-shadow-hover);
     }
 
-/* Car image styles */
 .car-image-container {
     position: relative;
     width: 100%;
@@ -130,7 +125,6 @@
     transform: scale(1.05);
 }
 
-/* Card content */
 .car-content {
     padding: 1.75rem;
     flex-grow: 1;
@@ -167,7 +161,6 @@
     flex-grow: 1;
 }
 
-/* Loading state */
 .loading-container {
     display: flex;
     justify-content: center;
@@ -194,7 +187,6 @@
     }
 }
 
-/* Error message */
 .error-message {
     background-color: #fee2e2;
     border-left: 4px solid var(--error-color);
@@ -205,7 +197,6 @@
     box-shadow: 0 2px 10px rgba(239, 68, 68, 0.1);
 }
 
-/* Pagination */
 .pagination-container {
     display: flex;
     justify-content: center;
@@ -250,7 +241,6 @@
     font-size: 1.125rem;
 }
 
-/* Add car button */
 .add-car-btn {
     background-color: var(--primary-color);
     color: white;
@@ -278,7 +268,6 @@
         transform: translateY(-1px);
     }
 
-/* Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -291,7 +280,6 @@
     }
 }
 
-/* Staggered animation for cards */
 .car-card:nth-child(1) {
     animation-delay: 0.1s;
 }
@@ -328,7 +316,6 @@
     animation-delay: 0.9s;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .cars-grid {
         grid-template-columns: 1fr;
@@ -366,16 +353,12 @@
     }
 }
 
-/* Medium screens */
 @media (min-width: 769px) and (max-width: 1024px) {
     .cars-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Existing CSS remains the same */
-
-/* Delete button styling */
 .delete-btn {
     display: flex;
     align-items: center;
@@ -414,13 +397,11 @@
         box-shadow: 0 2px 4px rgba(239, 68, 68, 0.25);
     }
 
-/* For including in car card */
 .car-actions {
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
 }
-/* Car SVG Icon */
 .car-svg-icon {
     width: 80px;
     height: 80px;
@@ -430,7 +411,6 @@
     background-size: contain;
 }
 
-/* Improved styling for image containers */
 .no-image {
     display: flex;
     justify-content: center;
@@ -456,7 +436,6 @@
     display: flex;
 }
 
-/* Add some animation to the SVG icon */
 @keyframes float {
     0% {
         transform: translateY(0px);
@@ -475,7 +454,6 @@
     animation: float 3s ease-in-out infinite;
 }
 
-/* Brand badge enhancements */
 .car-brand-badge {
-    z-index: 5; /* Ensure it appears above the fallback image */
+    z-index: 5; 
 }

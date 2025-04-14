@@ -1,4 +1,3 @@
-/* Réinitialisation globale pour éliminer les marges et les espaces */
 html,
 body {
     margin: 0;
@@ -15,7 +14,6 @@ body {
     padding: 0;
 }
 
-/* Styles pour le message d'erreur Blazor */
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -35,7 +33,6 @@ body {
         top: 0.5rem;
     }
 
-/* Animation de chargement magnifique pour Blazor */
 
 .loading-progress {
     position: absolute;
@@ -142,7 +139,6 @@ body {
     }
 }
 
-/* Fond d'écran de chargement */
 #app::before {
     content: "";
     position: fixed;
@@ -156,7 +152,6 @@ body {
     z-index: -1;
 }
 
-/* Animation d'apparition pour l'application */
 #app > :not(.loading-progress):not(.loading-progress-text) {
     animation: fadeIn 0.5s ease-in-out;
 }

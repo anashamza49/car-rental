@@ -1,5 +1,4 @@
-﻿/* Modern Home Page with Magnificent Styling */
-
+﻿
 :root {
     --primary-color: #6d28d9;
     --primary-light: #8b5cf6;
@@ -13,7 +12,6 @@
     --success-color: #10b981;
 }
 
-/* Reset pour éliminer les marges par défaut */
 body,
 html {
     margin: 0;
@@ -28,7 +26,6 @@ html {
     overflow-x: hidden;
 }
 
-/* Conteneur principal */
 .page-container {
     width: 100%;
     max-width: 100%;
@@ -39,7 +36,6 @@ html {
     min-height: 100vh;
 }
 
-/* Navbar Styling */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -142,7 +138,6 @@ html {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-/* Hero Section */
 .hero {
     display: flex;
     flex-direction: column;
@@ -244,7 +239,6 @@ html {
         transform: translateY(-2px);
     }
 
-/* Features Section */
 .features {
     padding: 5rem 2rem;
     background-color: white;
@@ -323,7 +317,6 @@ html {
     line-height: 1.6;
 }
 
-/* Footer */
 .footer {
     background-color: #1f2937;
     color: white;
@@ -376,7 +369,6 @@ html {
     font-size: 0.875rem;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
     .navbar {
         padding: 1rem;
@@ -410,7 +402,6 @@ html {
     }
 }
 
-/* Mobile Menu Button */
 .mobile-menu-button {
     display: none;
     background: none;
@@ -426,7 +417,6 @@ html {
     }
 }
 
-/* Mobile Menu */
 .mobile-menu {
     position: fixed;
     top: 0;

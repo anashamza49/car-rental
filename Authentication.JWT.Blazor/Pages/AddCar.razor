@@ -5,52 +5,56 @@
 @inject CarService CarService
 @inject NavigationManager Navigation
 
-<h3>Add a New Car</h3>
+<div class="centered-container">
+    <form>
+        <h3>Add a New Car</h3>
 
-<EditForm Model="@carDto" OnValidSubmit="HandleAddCar">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+        <EditForm Model="@carDto" OnValidSubmit="HandleAddCar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-    <div class="form-group">
-        <label for="brand">Brand</label>
-        <InputText id="brand" class="form-control" @bind-Value="carDto.Brand" />
-        <ValidationMessage For="@(() => carDto.Brand)" />
-    </div>
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <InputText id="brand" class="form-control" @bind-Value="carDto.Brand" />
+                <ValidationMessage For="@(() => carDto.Brand)" />
+            </div>
 
-    <div class="form-group">
-        <label for="model">Model</label>
-        <InputText id="model" class="form-control" @bind-Value="carDto.Model" />
-        <ValidationMessage For="@(() => carDto.Model)" />
-    </div>
+            <div class="form-group">
+                <label for="model">Model</label>
+                <InputText id="model" class="form-control" @bind-Value="carDto.Model" />
+                <ValidationMessage For="@(() => carDto.Model)" />
+            </div>
 
-    <div class="form-group">
-        <label for="year">Year</label>
-        <InputNumber id="year" class="form-control" @bind-Value="carDto.Year" />
-        <ValidationMessage For="@(() => carDto.Year)" />
-    </div>
+            <div class="form-group">
+                <label for="year">Year</label>
+                <InputNumber id="year" class="form-control" @bind-Value="carDto.Year" />
+                <ValidationMessage For="@(() => carDto.Year)" />
+            </div>
 
-    <div class="form-group">
-        <label for="licensePlate">License Plate</label>
-        <InputText id="licensePlate" class="form-control" @bind-Value="carDto.LicensePlate" />
-        <ValidationMessage For="@(() => carDto.LicensePlate)" />
-    </div>
+            <div class="form-group">
+                <label for="licensePlate">License Plate</label>
+                <InputText id="licensePlate" class="form-control" @bind-Value="carDto.LicensePlate" />
+                <ValidationMessage For="@(() => carDto.LicensePlate)" />
+            </div>
 
-    <div class="form-group">
-        <label for="image">Car Image</label>
-        <InputFile id="image" class="form-control" OnChange="HandleFileSelected" />
-        <ValidationMessage For="@(() => carDto.ImageUrl)" />
-    </div>
+            <div class="form-group">
+                <label for="image">Car Image</label>
+                <InputFile id="image" class="form-control" OnChange="HandleFileSelected" />
+                <ValidationMessage For="@(() => carDto.ImageUrl)" />
+            </div>
 
-    <button type="submit" class="btn btn-primary">Add Car</button>
-</EditForm>
+            <button type="submit" class="btn btn-primary">Add Car</button>
+        </EditForm>
 
-@if (isError)
-{
-    <div class="alert alert-danger">
-        <strong>Error:</strong> Unable to add the car. Please try again.
-        <p>@errorMessage</p>
-    </div>
-}
+        @if (isError)
+        {
+            <div class="alert alert-danger">
+                <strong>Error:</strong> Unable to add the car. Please try again.
+                <p>@errorMessage</p>
+            </div>
+        }
+    </form>
+</div>
 
 @code {
     private CarDto carDto = new CarDto();
