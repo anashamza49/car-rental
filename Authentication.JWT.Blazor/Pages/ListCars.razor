@@ -65,6 +65,7 @@
                         </div>
                     </div>
                     <div class="car-actions">
+                        <button class="rent-btn" @onclick="() => NavigateToRentCar(car.Id)">Louer</button>
                         <button class="edit-btn" @onclick="() => OpenUpdatePopup(car)">Modifier</button>
                         <button class="delete-btn" @onclick="() => DeleteCar(car.Id)">Supprimer</button>
                     </div>
@@ -89,6 +90,7 @@
 }
 
 @code {
+
     private bool isLoading = true;
     private string errorMessage = null;
     private List<CarDto> cars = new();
@@ -144,6 +146,11 @@
     {
         Navigation.NavigateTo("/add-car");
     }
+    private void NavigateToRentCar(int carId)
+    {
+        Navigation.NavigateTo($"/rent-car/{carId}");
+    }
+
 
     private void PreviousPage(int page)
     {

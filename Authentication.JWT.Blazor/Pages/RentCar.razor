@@ -1,4 +1,4 @@
-﻿@page "/rent-car"
+﻿@page "/rent-car/{carId:int}"
 @using Authentication.Shared.DTOs
 @using Blazored.LocalStorage
 @inject RentalService RentalService
@@ -26,7 +26,16 @@
 </div>
 
 @code {
+
+    [Parameter]
+    public int carId { get; set; }
+
     private RentalDto rental = new();
+
+    protected override void OnParametersSet()
+    {
+        rental.CarId = carId;
+    }
 
     private async Task Submit()
     {
