@@ -1,18 +1,32 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using Authentification.JWT.Service.DTOs;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 
 namespace Authentification.JWT.Web.Services
 {
-    public class CarService(HttpClient _httpClient, NavigationManager _navigationManager, ILocalStorageService _localStorage)
+    public class CarService
     {
+        private readonly HttpClient _httpClient;
+        private readonly NavigationManager _navigationManager;
+        private readonly ILocalStorageService _localStorage;
+
+        public CarService(HttpClient httpClient, NavigationManager navigationManager, ILocalStorageService localStorage)
+        {
+            _httpClient = httpClient;
+            _navigationManager = navigationManager;
+            _localStorage = localStorage;
+        }
+
         public void SetAuthorizationHeader(string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
+
         public async Task<HttpResponseMessage> AddCarAsync(CarDto carDto)
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
@@ -24,15 +38,17 @@ namespace Authentification.JWT.Web.Services
 
             SetAuthorizationHeader(token);
 
-            var content = new MultipartFormDataContent();
-            content.Add(new StringContent(carDto.Brand), "Brand");
-            content.Add(new StringContent(carDto.Model), "Model");
-            content.Add(new StringContent(carDto.Year.ToString()), "Year");
-            content.Add(new StringContent(carDto.LicensePlate), "LicensePlate");
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(carDto.Brand), "Brand" },
+                { new StringContent(carDto.Model), "Model" },
+                { new StringContent(carDto.Year.ToString()), "Year" },
+                { new StringContent(carDto.LicensePlate), "LicensePlate" }
+            };
 
             if (!string.IsNullOrEmpty(carDto.ImageUrl))
             {
-                content.Add(new StringContent(carDto.ImageUrl), "imageUrl");
+                content.Add(new StringContent(carDto.ImageUrl), "ImageUrl");
             }
 
             try
@@ -45,21 +61,14 @@ namespace Authentification.JWT.Web.Services
                 throw new Exception("An error occurred while adding the car.", ex);
             }
         }
+
         public async Task<List<CarDto>> GetCarsAsync(string token)
         {
             try
             {
                 SetAuthorizationHeader(token);
-
                 var response = await _httpClient.GetFromJsonAsync<List<CarDto>>("api/cars");
-
-                if (response == null)
-                {
-                    Console.Error.WriteLine("No cars found or there was an error fetching cars.");
-                    return new List<CarDto>();
-                }
-
-                return response;
+                return response ?? new List<CarDto>();
             }
             catch (Exception ex)
             {
@@ -82,5 +91,29 @@ namespace Authentification.JWT.Web.Services
                 return false;
             }
         }
+
+        public async Task UpdateCarAsync(CarDto car, string token)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Put, $"api/cars/{car.Id}")
+            {
+                Content = new StringContent(JsonSerializer.Serialize(car), Encoding.UTF8, "application/json")
+            };
+
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            try
+            {
+                var response = await _httpClient.SendAsync(requestMessage);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception("Error occurred while updating the car.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while updating the car.", ex);
+            }
+        }
+
     }
 }

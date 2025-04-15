@@ -33,5 +33,12 @@ namespace Authentification.JWT.DAL.Repositories
             await context.SaveChangesAsync();
             return true;
         }
+        public async Task<Car> UpdateAsync(Car car)
+        {
+            context.Cars.Update(car);
+            await context.SaveChangesAsync();
+            return car;
+        }
+
     }
 }

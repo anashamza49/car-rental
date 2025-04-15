@@ -5,7 +5,9 @@ using Authentification.JWT.Service.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using System;
-
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Authentification.JWT.Service.Services
 {
@@ -21,6 +23,7 @@ namespace Authentification.JWT.Service.Services
             this.mapper = mapper;
             this.webHostEnvironment = webHostEnvironment;
         }
+
         public async Task<CarResponseDto> AddCarAsync(int ownerId, CarDto carDto)
         {
             try
@@ -33,10 +36,9 @@ namespace Authentification.JWT.Service.Services
                     byte[] imageBytes = Convert.FromBase64String(carDto.ImageUrl);
 
                     var fileName = Guid.NewGuid().ToString() + ".png";
-
                     var filePath = Path.Combine(webHostEnvironment.WebRootPath, "car_images", fileName);
-
                     var directoryPath = Path.GetDirectoryName(filePath);
+
                     if (!Directory.Exists(directoryPath))
                     {
                         Directory.CreateDirectory(directoryPath);
@@ -48,7 +50,6 @@ namespace Authentification.JWT.Service.Services
                 }
 
                 var createdCar = await carRepo.AddAsync(car);
-
                 return mapper.Map<CarResponseDto>(createdCar);
             }
             catch (Exception ex)
@@ -58,6 +59,43 @@ namespace Authentification.JWT.Service.Services
             }
         }
 
+        public async Task<bool> UpdateCarAsync(int ownerId, int carId, CarDto carDto)
+        {
+            try
+            {
+                var car = await carRepo.GetByIdAsync(carId);
+
+                if (car == null)
+                {
+                    throw new Exception("Car not found.");
+                }
+
+                if (car.OwnerId != ownerId)
+                {
+                    throw new UnauthorizedAccessException("You are not authorized to update this car.");
+                }
+
+                car = mapper.Map(carDto, car);
+                await carRepo.UpdateAsync(car);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"Error updating car: {ex.Message}");
+            }
+        }
+
+        public async Task<CarResponseDto> GetCarByIdAsync(int carId, int ownerId)
+        {
+            var car = await carRepo.GetByIdAsync(carId);
+            if (car == null || car.OwnerId != ownerId)
+            {
+                throw new Exception("Car not found or not owned by user.");
+            }
+
+            return mapper.Map<CarResponseDto>(car);
+        }
 
         public async Task<List<CarResponseDto>> GetUserCarsAsync(int ownerId)
         {
@@ -69,10 +107,11 @@ namespace Authentification.JWT.Service.Services
         {
             var car = await carRepo.GetByIdAsync(carId);
             if (car == null || car.OwnerId != ownerId)
+            {
                 return false;
+            }
 
             return await carRepo.DeleteAsync(carId);
         }
     }
-
 }

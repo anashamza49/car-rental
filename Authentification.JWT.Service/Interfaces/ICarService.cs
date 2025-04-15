@@ -12,5 +12,7 @@ namespace Authentification.JWT.Service.Interfaces
         Task<CarResponseDto> AddCarAsync(int ownerId, CarDto carDto);
         Task<List<CarResponseDto>> GetUserCarsAsync(int ownerId);
         Task<bool> DeleteCarAsync(int carId, int ownerId);
+        Task<bool> UpdateCarAsync(int ownerId, int carId, CarDto carDto);
+        Task<CarResponseDto> GetCarByIdAsync(int carId, int ownerId);
     }
 }

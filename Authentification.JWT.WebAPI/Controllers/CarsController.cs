@@ -68,7 +68,21 @@ namespace Authentification.JWT.WebAPI.Controllers
             }
         }
 
-
+        [HttpGet("{id}")]
+        [Authorize(Policy = "EmployeeOrAdmin")]
+        public async Task<IActionResult> GetCarById(int id)
+        {
+            var ownerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            try
+            {
+                var car = await _carService.GetCarByIdAsync(id, ownerId);
+                return Ok(car);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = "Car not found", error = ex.Message });
+            }
+        }
 
         [HttpDelete("{id}")]
         [Authorize(Policy = "AdminOnly")]
@@ -78,5 +92,30 @@ namespace Authentification.JWT.WebAPI.Controllers
             var success = await _carService.DeleteCarAsync(id, ownerId);
             return success ? NoContent() : NotFound();
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> UpdateCar(int id, [FromForm] CarDto carDto)
+        {
+            var ownerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            try
+            {
+                var success = await _carService.UpdateCarAsync(ownerId, id, carDto);
+
+                if (success)
+                {
+                    return Ok("Car updated successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to update car.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error updating car", error = ex.Message });
+            }
+        }
+
     }
 }

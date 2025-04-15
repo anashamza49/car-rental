@@ -65,6 +65,7 @@
                         </div>
                     </div>
                     <div class="car-actions">
+                        <button class="edit-btn" @onclick="() => OpenUpdatePopup(car)">Modifier</button>
                         <button class="delete-btn" @onclick="() => DeleteCar(car.Id)">Supprimer</button>
                     </div>
                 </div>
@@ -78,14 +79,26 @@
     }
 </div>
 
+@if (showUpdatePopup)
+{
+    <div class="update-popup-overlay">
+        <div class="update-popup-container">
+            <UpdateCarPopup Car="selectedCar" OnUpdate="HandleUpdate" OnCancel="() => showUpdatePopup = false" />
+        </div>
+    </div>
+}
+
 @code {
     private bool isLoading = true;
     private string errorMessage = null;
-    private List<CarDto> cars = new List<CarDto>();
+    private List<CarDto> cars = new();
     private int currentPage = 1;
     private int carsPerPage = 9;
     private int totalCars = 0;
     private int totalPages => (int)Math.Ceiling((double)totalCars / carsPerPage);
+
+    private bool showUpdatePopup = false;
+    private CarDto selectedCar;
 
     protected override async Task OnInitializedAsync()
     {
@@ -145,7 +158,6 @@
     private async Task DeleteCar(int carId)
     {
         var token = await LocalStorage.GetItemAsync<string>("authToken");
-
         if (string.IsNullOrEmpty(token)) return;
 
         var success = await CarService.DeleteCarAsync(carId, token);
@@ -160,4 +172,43 @@
             errorMessage = "Échec de la suppression de la voiture.";
         }
     }
+
+    private void OpenUpdatePopup(CarDto car)
+    {
+        selectedCar = new CarDto
+            {
+                Id = car.Id,
+                Brand = car.Brand,
+                Model = car.Model,
+                Year = car.Year,
+                LicensePlate = car.LicensePlate,
+                ImageUrl = car.ImageUrl
+            };
+        showUpdatePopup = true;
+    }
+
+    private async Task HandleUpdate(CarDto updatedCar)
+    {
+        var token = await LocalStorage.GetItemAsync<string>("authToken");
+
+        if (string.IsNullOrEmpty(token))
+        {
+            errorMessage = "Token is missing. Please log in.";
+            return;
+        }
+
+        try
+        {
+            await CarService.UpdateCarAsync(updatedCar, token);
+            var index = cars.FindIndex(c => c.Id == updatedCar.Id);
+            if (index >= 0) cars[index] = updatedCar;
+            showUpdatePopup = false;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Failed to update the car: " + ex.Message;
+        }
+    }
+
+
 }

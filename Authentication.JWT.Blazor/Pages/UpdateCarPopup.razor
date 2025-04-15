@@ -1,0 +1,58 @@
+﻿@using Authentification.JWT.Service.DTOs
+@using Authentification.JWT.Web.Services
+@using Blazored.LocalStorage
+@inject CarService CarService
+@inject ILocalStorageService LocalStorage
+
+@code {
+    [Parameter] public CarDto Car { get; set; }
+    [Parameter] public EventCallback<CarDto> OnUpdate { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private CarDto updatedCar = new();
+
+    protected override void OnParametersSet()
+    {
+        updatedCar = new CarDto
+            {
+                Id = Car.Id,
+                Brand = Car.Brand,
+                Model = Car.Model,
+                Year = Car.Year,
+                LicensePlate = Car.LicensePlate,
+                ImageUrl = Car.ImageUrl
+            };
+    }
+
+    private async Task SubmitUpdate()
+    {
+        try
+        {
+            var token = await LocalStorage.GetItemAsync<string>("authToken");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new Exception("JWT token is missing.");
+            }
+
+            await CarService.UpdateCarAsync(updatedCar, token);
+            await OnUpdate.InvokeAsync(updatedCar);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+}
+<div class="popup-overlay">
+    <div class="popup">
+        <h3>Modifier la voiture</h3>
+        <input @bind="updatedCar.Brand" placeholder="Brand" />
+        <input @bind="updatedCar.Model" placeholder="Model" />
+        <input @bind="updatedCar.Year" type="number" placeholder="Year" />
+        <input @bind="updatedCar.LicensePlate" placeholder="License Plate" />
+        <button @onclick="SubmitUpdate">Mettre à jour</button>
+        <button @onclick="() => OnCancel.InvokeAsync()">Annuler</button>
+    </div>
+</div>

@@ -359,6 +359,45 @@
     }
 }
 
+.edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color:dodgerblue;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    margin-top: 1rem;
+}
+
+    .edit-btn::before {
+        content: "";
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M16.864 4.636a3 3 0 00-4.242 4.242L10.5 9.5l-3 10.5a1 1 0 001.29 1.29l10.5-3 3.636-3.636a3 3 0 000-4.242l-2.828-2.828a3 3 0 00-4.242 0z'%3E%3C/path%3E%3C/svg%3E");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .edit-btn:hover {
+        background-color: #1d72b8;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(29, 114, 184, 0.25);
+    }
+
+    .edit-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(29, 114, 184, 0.25);
+    }
+
+
 .delete-btn {
     display: flex;
     align-items: center;
@@ -456,4 +495,26 @@
 
 .car-brand-badge {
     z-index: 5; 
+}
+
+.update-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.update-popup-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow-hover);
+    width: 100%;
+    max-width: 600px;
 }
