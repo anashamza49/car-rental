@@ -9,6 +9,7 @@ namespace Authentification.JWT.DAL.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Rental> Rentals { get; set; }
 
         // configuring sql server and set the migrations assembly
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -21,12 +22,22 @@ namespace Authentification.JWT.DAL.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuration de la relation User-Car
+
             modelBuilder.Entity<Car>()
                 .HasOne(c => c.Owner)
                 .WithMany(u => u.Cars)
                 .HasForeignKey(c => c.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Rental>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Rental>()
+                .HasOne(r => r.Car)
+                .WithMany()
+                .HasForeignKey(r => r.CarId);
+
         }
     }
 }

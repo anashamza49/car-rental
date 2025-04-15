@@ -1,9 +1,4 @@
 ﻿using Authentification.JWT.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Authentification.JWT.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +23,7 @@ namespace Authentification.JWT.DAL.Repositories
 
             return createdUser.Entity;
         }
-        // get user by id without tracking
+
         public async Task<User> GetUserByIdAsync(int id)
         {
             return await context.Users

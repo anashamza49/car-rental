@@ -23,8 +23,7 @@ namespace Authentification.JWT.WebAPI.Controllers
         [Authorize(Policy = "EmployeeOrAdmin")]
         public async Task<IActionResult> GetUserCars()
         {
-            var ownerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var cars = await _carService.GetUserCarsAsync(ownerId);
+            var cars = await _carService.GetUserCarsAsync();
 
             var carsWithImages = cars.Select(car => new
             {
@@ -38,6 +37,7 @@ namespace Authentification.JWT.WebAPI.Controllers
 
             return Ok(carsWithImages);
         }
+
 
         [HttpPost]
         [Route("")]
@@ -106,7 +106,7 @@ namespace Authentification.JWT.WebAPI.Controllers
                     return Unauthorized(new { message = "User is not authorized." });
                 }
 
-                var ownerId = int.Parse(ownerIdClaim); // Pas d'exception maintenant si l'ID est nul
+                var ownerId = int.Parse(ownerIdClaim);
                 var success = await _carService.UpdateCarAsync(ownerId, id, carDto);
 
                 if (success)

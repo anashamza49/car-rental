@@ -97,9 +97,9 @@ namespace Authentification.JWT.Service.Services
             return mapper.Map<CarResponseDto>(car);
         }
 
-        public async Task<List<CarResponseDto>> GetUserCarsAsync(int ownerId)
+        public async Task<List<CarResponseDto>> GetUserCarsAsync()
         {
-            var cars = await carRepo.GetByOwnerIdAsync(ownerId);
+            var cars = await carRepo.GetByOwnerIdAsync();
             return mapper.Map<List<CarResponseDto>>(cars);
         }
 

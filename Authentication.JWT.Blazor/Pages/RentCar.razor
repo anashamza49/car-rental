@@ -1,0 +1,50 @@
+﻿@page "/rent-car/{carId:int}"
+@using Authentication.Shared.DTOs
+@using Blazored.LocalStorage
+@inject RentalService RentalService
+@inject NavigationManager Navigation
+@inject ILocalStorageService LocalStorage
+
+<div class="rent-container">
+    <h3 class="rent-title">Louer une voiture</h3>
+
+    <EditForm Model="rental" OnValidSubmit="Submit" class="rent-form">
+        <div class="form-group">
+            <label>ID Voiture</label>
+            <InputNumber @bind-Value="rental.CarId" class="input-field" />
+        </div>
+        <div class="form-group">
+            <label>Date début</label>
+            <InputDate @bind-Value="rental.StartDate" class="input-field" />
+        </div>
+        <div class="form-group">
+            <label>Date fin</label>
+            <InputDate @bind-Value="rental.EndDate" class="input-field" />
+        </div>
+        <button type="submit" class="submit-btn">Louer</button>
+    </EditForm>
+</div>
+
+@code {
+
+    [Parameter]
+    public int carId { get; set; }
+
+    private RentalDto rental = new();
+
+    protected override void OnParametersSet()
+    {
+        rental.CarId = carId;
+    }
+
+    private async Task Submit()
+    {
+        var token = await LocalStorage.GetItemAsStringAsync("authToken");
+        var result = await RentalService.RentCar(rental, token);
+
+        if (result.IsSuccessStatusCode)
+            Navigation.NavigateTo("/success");
+        else
+            Console.WriteLine("Erreur lors de la location");
+    }
+}
