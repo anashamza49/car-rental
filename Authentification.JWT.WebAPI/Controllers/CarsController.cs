@@ -97,9 +97,16 @@ namespace Authentification.JWT.WebAPI.Controllers
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> UpdateCar(int id, [FromForm] CarDto carDto)
         {
-            var ownerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             try
             {
+                var ownerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(ownerIdClaim))
+                {
+                    return Unauthorized(new { message = "User is not authorized." });
+                }
+
+                var ownerId = int.Parse(ownerIdClaim); // Pas d'exception maintenant si l'ID est nul
                 var success = await _carService.UpdateCarAsync(ownerId, id, carDto);
 
                 if (success)
