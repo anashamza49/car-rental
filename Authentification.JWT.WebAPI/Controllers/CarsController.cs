@@ -23,8 +23,7 @@ namespace Authentification.JWT.WebAPI.Controllers
         [Authorize(Policy = "EmployeeOrAdmin")]
         public async Task<IActionResult> GetUserCars()
         {
-            var ownerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var cars = await _carService.GetUserCarsAsync(ownerId);
+            var cars = await _carService.GetUserCarsAsync();
 
             var carsWithImages = cars.Select(car => new
             {
@@ -38,6 +37,7 @@ namespace Authentification.JWT.WebAPI.Controllers
 
             return Ok(carsWithImages);
         }
+
 
         [HttpPost]
         [Route("")]

@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// config NLog
+
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
@@ -25,33 +25,33 @@ builder.Services.AddCors(options =>
 });
 
 
-// Add services to the container.
+
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// config du db avec migrations vers DAL
+
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         x => x.MigrationsAssembly("Authentification.JWT.DAL")));
 
-// config des repositories
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-// config des services
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
-// Après les autres services
+
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<ICarService, CarService>();
 
-// config AutoMapper
+
 builder.Services.AddAutoMapper(typeof(AuthProfile));
 
-// Configuration JWT
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -65,14 +65,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Configuration des politiques d'autorisation pour les rôles
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("EmployeeOrAdmin", policy => policy.RequireRole("Admin", "Employee"));
 });
 
-// Configuration Swagger avec authentification
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "JWT API", Version = "v1" });
@@ -111,7 +110,7 @@ var app = builder.Build();
 
 NLog.Common.InternalLogger.LogToConsole = true;
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

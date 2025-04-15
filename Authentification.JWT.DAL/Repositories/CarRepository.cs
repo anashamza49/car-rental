@@ -21,8 +21,8 @@ namespace Authentification.JWT.DAL.Repositories
         public async Task<Car?> GetByIdAsync(int id)
             => await context.Cars.FindAsync(id);
 
-        public async Task<List<Car>> GetByOwnerIdAsync(int ownerId)
-            => await context.Cars.Where(c => c.OwnerId == ownerId).ToListAsync();
+        public async Task<List<Car>> GetByOwnerIdAsync()
+    => await context.Cars.ToListAsync();
 
         public async Task<bool> DeleteAsync(int id)
         {
