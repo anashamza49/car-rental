@@ -15,6 +15,6 @@ namespace Authentification.JWT.DAL.Models
         public string LicensePlate { get; set; }
         public int OwnerId { get; set; } 
         public User Owner { get; set; }
-        public string ImageUrl { get; set; }  // URL de l'image
+        public string ImageUrl { get; set; } 
     }
 }

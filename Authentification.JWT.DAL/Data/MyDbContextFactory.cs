@@ -9,7 +9,7 @@ namespace Authentification.JWT.DAL.Data
         public MyDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<MyDbContext>();
-            optionsBuilder.UseSqlServer("Server=DESKTOP-FB9I7I1;Database=rentalcarDb;Trusted_Connection=True;TrustServerCertificate=True;", b => b.MigrationsAssembly("Authentification.JWT.DAL"));
+            optionsBuilder.UseSqlServer("Server=OUJC51MK13;Database=authenticationDb;Trusted_Connection=True;TrustServerCertificate=True;", b => b.MigrationsAssembly("Authentification.JWT.DAL"));
             return new MyDbContext(optionsBuilder.Options);
         }
     }
