@@ -95,7 +95,7 @@ namespace Authentification.JWT.WebAPI.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> UpdateCar(int id, [FromForm] CarDto carDto)
+        public async Task<IActionResult> UpdateCar(int id, [FromBody] CarDto carDto)
         {
             try
             {
