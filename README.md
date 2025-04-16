@@ -24,10 +24,21 @@ Ce projet permet la gestion des employés dans une entreprise, avec une séparat
 
 ---
 
+## 🔐 Authentification (JWT)
+- `POST /api/auth/register` : enregistrement
+- `POST /api/auth/login` : connexion
+
 ## 🚗 Gestion des voitures
-- `GET /api/cars` : liste des voitures de l’utilisateur (Admin ou Employee)
-- `POST /api/cars` : ajout d’une voiture (Admin uniquement)
-- `DELETE /api/cars/{id}` : suppression d’une voiture (Admin uniquement)
+- `GET /api/cars` : liste des voitures (Admin ou Employee)
+- `GET /api/cars/{id}` : détails d’une voiture
+- `POST /api/cars` : ajout (Admin uniquement)
+- `PUT /api/cars/{id}` : modification (Admin uniquement)
+- `DELETE /api/cars/{id}` : suppression (Admin uniquement)
+
+## 📦 Location
+- `POST /api/Rental/rent` : louer une voiture
+- `GET /api/Rental` : liste des locations
+
 
 ---
 ![Capture1](https://github.com/user-attachments/assets/b9381813-283c-4c69-8b73-df52193f9dab)
@@ -38,9 +49,9 @@ Ce projet permet la gestion des employés dans une entreprise, avec une séparat
 
 ![Capture4](https://github.com/user-attachments/assets/3dffe150-1a4d-453f-b690-7f628b25a6cb)
 
-![Capture5](https://github.com/user-attachments/assets/c45c154e-7795-4c6e-b4e2-fa0c54bf023e)
+![Capture](https://github.com/user-attachments/assets/e5b349d5-ef5b-4d77-b4eb-e203236c00f0)
 
-![Capture6](https://github.com/user-attachments/assets/d5a2acfb-e003-460a-b886-2b6ad9eb13c0)
+![Capture](https://github.com/user-attachments/assets/9d5b1279-665f-464b-947f-1314b02eca13)
 
 
 
@@ -50,7 +61,3 @@ Ce projet permet la gestion des employés dans une entreprise, avec une séparat
 - C#
 - Entity Framework Core
 
-
-## 📌 Auteur
-
-Hamzaoui – 2025
