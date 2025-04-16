@@ -41,7 +41,8 @@ Ce projet permet la gestion des employés dans une entreprise, avec une séparat
 
 
 ---
-![Capture1](https://github.com/user-attachments/assets/b9381813-283c-4c69-8b73-df52193f9dab)
+
+![Capture](https://github.com/user-attachments/assets/9a15e311-4028-44a9-8eb5-6524a3785d87)
 
 ![Capture2](https://github.com/user-attachments/assets/c893ab52-d87c-4349-908e-923da8075b61)
 
